@@ -4,7 +4,6 @@ require 'routes/movies.php';
 
 $app = new \Slim\App ();
 
-//TODO: Add HTML code so that it accept a value and POSTs it to the entered URL
 $app->get ( '/', function () {
 	echo "<!DOCTYPE html>";
 	echo "<html>";
@@ -14,7 +13,7 @@ $app->get ( '/', function () {
 	echo "</head>";
 	echo "<body>";
 	echo "<h2>Add Movie To Database</h2>";
-	echo "<form action=\"http://tyrant.local/index.php/add\" method=\"POST\">";
+	echo "<form action=\"http://tyrant.local/add\" method=\"POST\">";
 	echo "<table>";
 	echo "<tr>";
 	echo "<th>id:</th>";
@@ -56,9 +55,28 @@ $app->get ( '/', function () {
 	echo "<th>url:</th>";
 	echo "<th><input type=\"text\" name=\"url\" /></th>";
 	echo "</tr>";
+	echo "<tr>";
+	echo "<th></th>";
+	echo "<th><input type=\"submit\" value=\"Submit\" /></th>";
+	echo "</tr>";
 	echo "</table>";
-	echo "<input type=\"submit\" value=\"Submit\" />";
 	echo "</form>";
+	echo "<script>";
+	echo "function post(path) {";
+	echo "path = \"http://tyrant.local/delete/id/\"+ path;";
+	echo "var form = document.createElement(\"form\");";
+	echo "form.setAttribute(\"method\", \"post\");";
+	echo "form.setAttribute(\"action\", path);";
+	echo "form.submit();}";
+	echo "</script>";
+	echo "<h2>Delete Movie From Database</h2>";
+	echo "<table>";
+	echo "<tr>";
+	echo "<th>id:</th>";
+	echo "<th><input type=\"text\" id=\"id\" /></th>";
+	echo "<th><button type=\"button\" onclick=\"post(document.getElementById('id').value)\">Delete</button></th>";
+	echo "</tr>";
+	echo "</table>";
 	echo "</body>";
 	echo "</html>";
 } );
@@ -80,8 +98,7 @@ $app->post ( '/add', function ($request, $response, $args) {
 	addMovie ( $data ['id'], $data ['name'], $data ['description'], $data ['stars'], $data ['length'], $data ['image'], $data ['year'], $data ['rating'], $data ['director'], $data ['url'] );
 } );
 
-//TODO: Delete should be changed to POST method in the final version
-$app->get ( '/delete/id/{id}', function ($request, $response, $args) {
+$app->post ( '/delete/id/{id}', function ($request, $response, $args) {
 	deleteMovie ( $args ['id'] );
 } );
 
