@@ -4,6 +4,7 @@ require 'routes/movies.php';
 
 $app = new \Slim\App ();
 
+//TODO: Add HTML code so that it accept a value and POSTs it to the entered URL
 $app->get ( '/', function () {
 	echo "<!DOCTYPE html>";
 	echo "<html>";
@@ -79,6 +80,7 @@ $app->post ( '/add', function ($request, $response, $args) {
 	addMovie ( $data ['id'], $data ['name'], $data ['description'], $data ['stars'], $data ['length'], $data ['image'], $data ['year'], $data ['rating'], $data ['director'], $data ['url'] );
 } );
 
+//TODO: Delete should be changed to POST method in the final version
 $app->get ( '/delete/id/{id}', function ($request, $response, $args) {
 	deleteMovie ( $args ['id'] );
 } );
